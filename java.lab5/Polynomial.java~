@@ -9,7 +9,6 @@ public class Polynomial{
 	}
 	//methods
 	public void addTerm(int c, int e){
-		if(c == 0) return;
 		Term tempTerm = new Term(c,e);
 		//ListIterator itr = new ListIterator(0);	
 		for(int i = 0; i < poly.size(); i++){
@@ -66,22 +65,13 @@ public class Polynomial{
 		return str;
 	}
 	//2. multiply with constant
-	public void multiplyConstant(int m){
+	public Polynomial multiplyConstant(int m){
 	    for(int i = 0; i < poly.size(); i++){
 			Term term_list = poly.get(i);
 			term_list.coeff *= m;
-			poly.set(i, term_list);
-		}
-	}
-	//2. substraction
-	public Polynomial substract(Polynomial p){
-		Polynomial result = new Polynomial();
-		ListIterator<Term> itr = poly.listIterator(0);
-		p.multiplyConstant(-1);//p = -p
-		while(itr.hasNext()){
-			Term t1 = itr.next();
-			p.addTerm(t1.coeff, t1.exp);
-		} 
-		return p;
+			if(term_list.exp > e){
+				poly.add(i, term_list);
+				return ;
+			}
 	}
 }
