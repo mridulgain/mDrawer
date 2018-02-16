@@ -7,6 +7,9 @@ public class Polynomial{
 		poly = new LinkedList<Term>();	
 	//	size = 0;	
 	}
+    public Polynomial(Polynomial p2){
+        this.poly = (LinkedList<Term>)p2.poly.clone();
+    }
 	//methods
 	public void addTerm(int c, int e){
 		if(c == 0) return;
@@ -48,13 +51,13 @@ public class Polynomial{
 	} 
 	//1.add
 	public Polynomial add(Polynomial p){
-		Polynomial result = new Polynomial();
+		Polynomial result = new Polynomial(p);
 		ListIterator<Term> itr = poly.listIterator(0);
 		while(itr.hasNext()){
 			Term t1 = itr.next();
-			p.addTerm(t1.coeff, t1.exp);
+			result.addTerm(t1.coeff, t1.exp);
 		} 
-		return p;
+		return result;
 	}
 	//1. output
 	public String toString(){
@@ -66,22 +69,24 @@ public class Polynomial{
 		return str;
 	}
 	//2. multiply with constant
-	public void multiplyConstant(int m){
-	    for(int i = 0; i < poly.size(); i++){
-			Term term_list = poly.get(i);
+	public Polynomial multiplyConstant(int m){
+	    Polynomial result = new Polynomial(this);
+	    for(int i = 0; i < result.poly.size(); i++){
+			Term term_list = result.poly.get(i);
 			term_list.coeff *= m;
-			poly.set(i, term_list);
+			result.poly.set(i, term_list);
 		}
+	    return result;
 	}
 	//2. substraction
 	public Polynomial substract(Polynomial p){
-		Polynomial result = new Polynomial();
+		Polynomial result = new Polynomial(p);
 		ListIterator<Term> itr = poly.listIterator(0);
-		p.multiplyConstant(-1);//p = -p
+		Polynomial temp = p.multiplyConstant(-1);//p = -p
 		while(itr.hasNext()){
 			Term t1 = itr.next();
-			p.addTerm(t1.coeff, t1.exp);
+			result.addTerm(t1.coeff, t1.exp);
 		} 
-		return p;
+		return result;
 	}
 }

@@ -13,13 +13,14 @@ Polynomial q = new Polynomial();
 		q.addTerm(7,3);
 		System.out.println(q);
 		Polynomial r = p.add(q);
-				System.out.println(r);
+				System.out.println(r + "\n" + q);
 		//constant multiplication
-		r.multiplyConstant(-1);
+		Polynomial t = new Polynomial(r);
+		t.multiplyConstant(-1);
 		System.out.println(r);
 		//sub
 		r = p.substract(q);
-		System.out.println(r);
-		System.out.println(q);
+		//System.out.println(r);
+		//System.out.println(q);
 	}
 }
