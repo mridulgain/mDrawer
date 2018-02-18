@@ -7,9 +7,6 @@ public class Polynomial{
 		poly = new LinkedList<Term>();	
 	//	size = 0;	
 	}
-    public Polynomial(Polynomial p2){
-        this.poly = (LinkedList<Term>)p2.poly.clone();
-    }
 	//methods
 	public void addTerm(int c, int e){
 		if(c == 0) return;
@@ -51,42 +48,60 @@ public class Polynomial{
 	} 
 	//1.add
 	public Polynomial add(Polynomial p){
-		Polynomial result = new Polynomial(p);
+		Polynomial result = new Polynomial();
 		ListIterator<Term> itr = poly.listIterator(0);
 		while(itr.hasNext()){
 			Term t1 = itr.next();
 			result.addTerm(t1.coeff, t1.exp);
-		} 
+		}
+		itr = p.poly.listIterator(0);
+		while(itr.hasNext()){
+			Term t1 = itr.next();
+			result.addTerm(t1.coeff, t1.exp);
+		}
 		return result;
 	}
-	//1. output
+	//1. output toString()
 	public String toString(){
 		ListIterator<Term> itr = poly.listIterator(0);
-		Term temp;
 		String str = "";		
-		while(itr.hasNext())
-			str += " + " + itr.next();		
+		while(itr.hasNext()){
+			Term temp = itr.next();
+			if(temp.coeff > 0)
+				str += " + ";
+			str += temp;
+		}		
 		return str;
 	}
 	//2. multiply with constant
 	public Polynomial multiplyConstant(int m){
-	    Polynomial result = new Polynomial(this);
-	    for(int i = 0; i < result.poly.size(); i++){
-			Term term_list = result.poly.get(i);
-			term_list.coeff *= m;
-			result.poly.set(i, term_list);
+	    Polynomial result = new Polynomial();
+	    ListIterator<Term> itr = poly.listIterator(0);
+		while(itr.hasNext()){
+			Term t1 = itr.next();
+			result.addTerm(t1.coeff * m, t1.exp);
 		}
 	    return result;
 	}
 	//2. substraction
 	public Polynomial substract(Polynomial p){
-		Polynomial result = new Polynomial(p);
-		ListIterator<Term> itr = poly.listIterator(0);
 		Polynomial temp = p.multiplyConstant(-1);//p = -p
-		while(itr.hasNext()){
-			Term t1 = itr.next();
-			result.addTerm(t1.coeff, t1.exp);
-		} 
-		return result;
+		return this.add(temp);
 	}
+	//2. multiplication
+	
+	public Polynomial multiply(Polynomial p){
+		Polynomial result = new Polynomial();
+		ListIterator<Term> itr = this.poly.listIterator(0);
+		while(itr.hasNext()){
+			Term multiplier = itr.next();
+			ListIterator<Term> itr2 = p.poly.listIterator(0);
+			while(itr2.hasNext()){
+				Term multiplicand = itr2.next();
+				result.addTerm(multiplier.coeff * multiplicand.coeff, multiplier.exp + multiplicand.exp);		
+			}		
+		}	
+	return result;
+	}
+	
 }

@@ -5,6 +5,9 @@ public class Term{
 		exp = e;	
 	}
 	public String toString(){
-		return coeff + "(x^" + exp + ") ";	
+		String str = "" + coeff + " ";		
+		if(exp != 0)
+			str = coeff + "(x^" + exp + ") ";
+		return str;
 	}
 }
