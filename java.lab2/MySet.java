@@ -1,53 +1,55 @@
 import java.util.Arrays;
 public class MySet{
-
-	private int set[];//elements of set
-	private int cardinality;//no of elements
-	//Constractor 1
+	private int[] elements;
+	//constractor 1
 	public MySet(){
-		set = new int[0];
-		cardinality = 0;
+		elements = new int[0];
 	}
 	//constractor 2
-	public MySet(int maxSize){
-		set = new int[maxSize];
-		cardinality = 0;
-	}
-	//constractor 3	
 	public MySet(int[] list){
-		cardinality = list.length;
-		set = new int[cardinality];
-		for(int n = 0; n < cardinality; n++)
-			set[n] = list[n];
-	}
-	public boolean addElement(int val){
-		if(cardinality < set.length)
-			if(!contains(val)){
-				set[cardinality++] = val;
-				return true;
+		int[] temp = new int[list.length];
+		int unique = 0;
+		boolean found = false;
+		for(int i = 0; i < list.length; i++){
+			found = false;
+			for(int j = 0; j < i; j++){
+				if(list[i] == list[j]){
+					found = true;
+					break;
+				}
 			}
-			else
-				System.out.println("Value already exists");
-		else
-			System.out.println("Set is full");
-		return false;
+			if(!found)
+				temp[unique++] = list[i];
+		}
+		elements = new int[unique];
+		for(int i = 0; i < unique; i++){
+			elements[i] = temp[i];
+		}
 	}
-	/*public MySet union(MySet s){
-	
-	
-	}*/
-	private boolean contains(int val){
-		for(int i:set){
+	public int getCardinality(){
+		return elements.length;
+	}
+	public boolean isElementInTheSet(int val){
+		for(int i:elements)
 			if(i == val)
 				return true;
-		}
 		return false;
 	}
-	public String toString(){
-		String str = "{" + set[0];
-		for(int i = 1; i < cardinality; i++)
-			str += " ,"+set[i];
-		str += "}";
+	public MySet union(MySet s){
+		int temp[] = new int[s.getCardinality() + this.getCardinality()];
+		int len = 0;
+		for(int i = 0; i < s.getCardinality(); i++)
+			temp[len++] = s.elements[i];
+			
+		for(int i = 0; i < this.getCardinality(); i++){
+				temp[len++] = this.elements[i];
+		}
+		MySet res = new MySet(temp);
+		return res;
+	}
+	public String toString()
+	{
+		String str = Arrays.toString(elements);
 		return str;
 	}
 }
