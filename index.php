@@ -23,7 +23,7 @@
 				<a href="http://scis.uohyd.ac.in/~askcs"> Questions</a>
 				<ul>
 					<?php
-					$files = scandir('./');//listing dir content
+					$files = scandir('./data');//listing dir content
 					sort($files); // this does the sorting
 					//show all folders & files
 					foreach($files as $f){
