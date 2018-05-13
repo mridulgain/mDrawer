@@ -13,6 +13,7 @@ echo '<a href="http://scis.uohyd.ac.in/~askcs"> Questions</a></br>';
 $files = scandir('./');
 sort($files); // this does the sorting
 foreach($files as $f){
-   echo'<a href="./'.$f.'">'.$f.'</a><br>';
+    if($f != "." && $f != ".." && $f != "index.php")
+        echo'<a href="./'.$f.'">'.$f.'</a><br>';
 }
 ?>
